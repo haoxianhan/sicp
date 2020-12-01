@@ -64,6 +64,7 @@
 
 
 ;; p2.68
+;; 构造编码树时，symbols将子集都保存起来，所以每次搜索分别检测左右子树来递归
 (define (encode message tree)
   (if (null? message)
     '()
@@ -87,5 +88,38 @@
 (encode-symbol 'c sample-tree)
 (encode '(a d a b b c a) sample-tree)
 ;; p2.68
+
+;; p2.69
+(define (generate-huffman-tree pairs)
+  (successive-merge (make-leaf-set pairs)))
+
+;; 合并好的要重新放回集合，定序后再继续合并，最后停止于只有一个元素的集合即结果
+(define (successive-merge leaf-set)
+  (cond ((null? leaf-set) '())
+        ((null? (cdr leaf-set)) (car leaf-set))
+        (else (successive-merge
+                (adjoin-set (make-code-tree (car leaf-set)
+                                            (cadr leaf-set))
+                            (cddr leaf-set))))))
+
+(generate-huffman-tree '((a 4) (b 2) (c 1) (d 1)))
+;; p2.69
+
+;; p2.70
+(define p-2-70-symbol-frequence
+  '((A 1) (NA 16) (BOOM 1) (SHA 3) (GET 2) (YIP 9) (JOB 2) (WAH 1)))
+
+(define p-2-70-code-tree
+  (generate-huffman-tree p-2-70-symbol-frequence))
+
+(define msg-1 '(Get a job))
+(encode msg-1 p-2-70-code-tree)
+
+(define msg-2 '(Sha na na na na na na na na))
+(encode msg-2 p-2-70-code-tree)
+
+(define msg-3 '(Wah yip yip yip yip yip yip yip yip yip))
+(encode msg-3 p-2-70-code-tree)
+;; p2.70
 
 ; (load "huffman.scm")
