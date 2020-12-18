@@ -65,8 +65,10 @@
               (else
                 (iter (cdr q) (cons (caar q) acc)))))
       (cond ((empty-deque?)
+             (newline)
              (display '()))
             (else
+              (newline)
               (display (iter front-ptr '())))))
 
     (define (dispatch m)
@@ -83,17 +85,17 @@
 
 (define dq (make-deque))
 
-((dq 'front-insert!) 1)
+(((dq 'front-insert!) 1) 'print)
 
-((dq 'front-insert!) 2)
+(((dq 'front-insert!) 2) 'print)
 
-((dq 'front-insert!) 3)
+(((dq 'front-insert!) 3) 'print)
 
-((dq 'rear-insert!) 4)
+(((dq 'rear-insert!) 4) 'print)
 
-; (dq 'front-delete!)
+((dq 'front-delete!) 'print)
 
-; (dq 'rear-delete!)
+((dq 'rear-delete!) 'print)
 
 ; (dq 'print)
 
@@ -103,5 +105,4 @@
 
 ; (load "p3.23.scm")
 
-; (cdar '((1 2)))
 
